@@ -90,8 +90,21 @@ class ItemsActivity : AppCompatActivity(),
             super.onBackPressed()
         }
 
+        correctSettingsToolbarVisibilty()
     }
 
+    fun correctSettingsToolbarVisibilty(){
+        if(settingsFragment != null){
+            if(settingsFragment!!.isVisible){
+                showSettingsAppBar()
+            }
+            else{
+                hideSettingsAppBar()
+            }
+            return
+        }
+        hideSettingsAppBar()
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
