@@ -130,38 +130,42 @@ class AccountFragment : Fragment(),
     private fun savePreferences(){
         view!!.hideKeyboard()
 
+//        val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+//        val editor: SharedPreferences.Editor = prefs.edit()
+//        if(!input_name.text.toString().equals("")){
+//            val name: String? = input_name.text.toString()
+//            printToLog("saving name: " + name)
+//            editor.putString(PREFERENCES_NAME, name)
+//            editor.apply()
+//
+//        }
+
+
         val prefs: SharedPreferences = PreferenceHelper.defaultPrefs(context!!)
 
-        if(!input_name.text.toString().equals("")){
-            val name: String? = input_name.text.toString()
-            printToLog("saving name: " + name)
-            prefs[PREFERENCES_NAME] = name
-        }
+        // name
+        printToLog("saving name: " + input_name.text.toString())
+        prefs[PREFERENCES_NAME] = input_name.text
 
-        if(!input_username.text.toString().equals("")){
-            val username: String? = input_username.text.toString().replace(" ", ".")
-            printToLog("saving username: " + username)
-            prefs[PREFERENCES_USERNAME] = username
-            input_username.setText(username) // fix the username being displayed if necessary
-        }
+        // username
+        val username: String = input_username.text.toString().replace(" ", ".")
+        printToLog("saving username: " + username)
+        prefs[PREFERENCES_USERNAME] = username
+        input_username.setText(username) // fix the username being displayed if necessary
 
-        if(!input_phone_number.text.toString().equals("")){
-            val phoneNumber: String = removeNumberFormatting(input_phone_number.text.toString())
-            printToLog("saving phone number: " + phoneNumber)
-            prefs[PREFERENCES_PHONE_NUMBER] = phoneNumber
-        }
+        // Phone Number
+        val phoneNumber: String = removeNumberFormatting(input_phone_number.text.toString())
+        printToLog("saving phone number: " + phoneNumber)
+        prefs[PREFERENCES_PHONE_NUMBER] = phoneNumber
 
-        if(!input_email_address.text.toString().equals("")){
-            val email: String? = input_email_address.text.toString()
-            printToLog("saving email address: " + email)
-            prefs[PREFERENCES_EMAIL] = email
-        }
+        // Email Address
+        printToLog("saving email address: " + input_email_address.text.toString())
+        prefs[PREFERENCES_EMAIL] = input_email_address.text
 
-        if(!gender_spinner.selectedItem.toString().equals("")){
-            val gender: String? = gender_spinner.selectedItem.toString()
-            printToLog("saving gender: " + gender)
-            prefs[PREFERENCES_GENDER] = gender
-        }
+        // Gender
+        printToLog("saving gender: " + gender_spinner.selectedItem.toString())
+        prefs[PREFERENCES_GENDER] = gender_spinner.selectedItem
+
 
         if(selectedImageUri != null){
             prefs[PREFERENCES_PROFILE_IMAGE] = selectedImageUri.toString()

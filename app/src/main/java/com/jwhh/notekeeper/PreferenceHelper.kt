@@ -3,12 +3,13 @@ package com.jwhh.notekeeper
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import android.text.Editable
 import kotlin.reflect.KProperty
 
 /**
  * For more information on the Singleton pattern with Kotlin:
  * Course name: Android Apps with Kotlin: Build Your First App (Author = Jim Wilson)
- * Video: 5.6: "Singletons and Data Classes"
+ * Video: 5.7
  */
 object PreferenceHelper{
 
@@ -17,6 +18,7 @@ object PreferenceHelper{
 
     // Probably best to not use this. getDefaultSharedPreferences will avoid typos
     // and confusion caused by multiple files
+    // Use this if you don't want any other application to read the shared preferences file
     fun customPrefs(context: Context, name: String): SharedPreferences
             = context.getSharedPreferences(name, Context.MODE_PRIVATE)
 
@@ -35,9 +37,19 @@ object PreferenceHelper{
      * puts a key value pair in shared prefs if doesn't exists, otherwise updates value on given [key]
      * Operators: https://kotlinlang.org/docs/reference/operator-overloading.html#operator-overloading
      */
-    operator fun SharedPreferences.set(key: String, value: Any?) {
+    operator fun SharedPreferences.set(key: String, value: Any) {
         when (value) {
-            is String? -> edit({ it.putString(key, value) })
+            is Editable -> {
+                if(!value.toString().equals("")){
+                    edit({ it.putString(key, value.toString()) })
+                }
+
+            }
+            is String -> {
+                if(!value.equals("")){
+                    edit({ it.putString(key, value) })
+                }
+            }
             is Int -> edit({ it.putInt(key, value) })
             is Boolean -> edit({ it.putBoolean(key, value) })
             is Float -> edit({ it.putFloat(key, value) })
