@@ -7,9 +7,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 
 class SettingsFragment: PreferenceFragment() {
 
@@ -36,8 +34,24 @@ class SettingsFragment: PreferenceFragment() {
         val actionBar = activity.supportActionBar!!
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setTitle(R.string.fragment_settings)
+        setHasOptionsMenu(true)
 
         return view
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?) {
+        // Disable the 3 dots in the action bar
+        val menuItem: MenuItem = menu!!.findItem(R.id.action_settings)
+        menuItem.setVisible(false)
+        super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        if(item!!.itemId == android.R.id.home){
+            iItems!!.onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onAttach(context: Context?) {
