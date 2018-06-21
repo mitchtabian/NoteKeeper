@@ -36,7 +36,6 @@ class SettingsFragment: PreferenceFragment() {
         val actionBar = activity.supportActionBar!!
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setTitle(R.string.fragment_settings)
-        setHasOptionsMenu(true)
 
         return view
     }
