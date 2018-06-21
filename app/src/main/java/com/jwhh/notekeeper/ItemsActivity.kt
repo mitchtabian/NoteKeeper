@@ -18,9 +18,11 @@ import android.view.View
 import kotlinx.android.synthetic.main.activity_items.*
 import kotlinx.android.synthetic.main.app_bar_items.*
 import kotlinx.android.synthetic.main.content_items.*
+import kotlinx.android.synthetic.main.layout_settings_toolbar.*
 
 class ItemsActivity : AppCompatActivity(),
-        NavigationView.OnNavigationItemSelectedListener
+        NavigationView.OnNavigationItemSelectedListener,
+        IItems
 {
 
     private val TAG = "ItemsActivity"
@@ -121,6 +123,13 @@ class ItemsActivity : AppCompatActivity(),
         transaction.commit()
     }
 
+    override fun showSettingsAppBar() {
+        settings_app_bar.visibility = View.VISIBLE
+    }
+
+    override fun hideSettingsAppBar() {
+        settings_app_bar.visibility = View.GONE
+    }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
