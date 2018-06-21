@@ -11,6 +11,8 @@ import android.view.ViewGroup
 
 class SettingsFragment: PreferenceFragment() {
 
+	private val TAG = "SettingsFragment"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -31,5 +33,9 @@ class SettingsFragment: PreferenceFragment() {
         setHasOptionsMenu(true)
 
         return view
+    }
+	
+	private fun printToLog(message: String?){
+        Log.d(TAG, message)
     }
 }
