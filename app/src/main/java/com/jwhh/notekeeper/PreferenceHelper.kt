@@ -27,14 +27,14 @@ object PreferenceHelper{
         https://kotlinlang.org/docs/reference/extensions.html
         https://kotlinlang.org/docs/reference/inline-functions.html
      */
-    fun SharedPreferences.edit(operation: (SharedPreferences.Editor) -> Unit){
+    inline fun SharedPreferences.edit(operation: (SharedPreferences.Editor) -> Unit){
         val editor = this.edit()
         operation(editor) // do the work needed
         editor.apply()
     }
 
     /**
-     * puts a key value pair in shared prefs if doesn't exists, otherwise updates value on given [key]
+     * puts a key value pair in shared prefs if it doesn't exist, otherwise updates value on given [key]
      * Operators: https://kotlinlang.org/docs/reference/operator-overloading.html#operator-overloading
      */
     operator fun SharedPreferences.set(key: String, value: Any) {
@@ -60,8 +60,6 @@ object PreferenceHelper{
 
     /**
      * finds value on given key.
-     * [T] is the type of value
-     * @param defaultValue default value saved in SharedPrefs - will take null for strings, false for bool and -1 for numeric values if [defaultValue] is not specified
      * Operators: https://kotlinlang.org/docs/reference/operator-overloading.html#operator-overloading
      * https://kotlinlang.org/docs/reference/inline-functions.html#inline-properties
      */
