@@ -119,6 +119,16 @@ class AccountFragment : Fragment(),
     fun savePreferences(){
         view!!.hideKeyboard()
 
+//        val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+//        val editor: SharedPreferences.Editor = prefs.edit()
+//        if(!input_name.text.toString().equals("")){
+//            val name: String? = input_name.text.toString()
+//            printToLog("saving name: " + name)
+//            editor.putString(PREFERENCES_NAME, name)
+//            editor.apply()
+//
+//        }
+
         val prefs: SharedPreferences = PreferenceHelper.defaultPrefs(context!!)
 
 
