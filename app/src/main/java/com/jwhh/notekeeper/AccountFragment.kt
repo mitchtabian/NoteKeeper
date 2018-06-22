@@ -25,6 +25,7 @@ import android.widget.ImageButton
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.jwhh.notekeeper.PreferenceHelper.set
+import com.jwhh.notekeeper.PreferenceHelper.get
 import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.layout_account_toolbar.*
 import java.util.*
@@ -49,6 +50,7 @@ class AccountFragment : Fragment(),
         input_phone_number.addTextChangedListener(PhoneNumberFormattingTextWatcher(Locale.getDefault().country))
 
         initToolbar()
+        initWidgetValues()
         initPermissions()
         enablePhotoSelection()
     }
@@ -115,6 +117,38 @@ class AccountFragment : Fragment(),
             R.id.change_photo -> inflateChangePhotoDialog()
         }
 
+    }
+
+    private fun initWidgetValues(){
+
+        val prefs: SharedPreferences = PreferenceHelper.defaultPrefs(context!!)
+
+        // Option 1: Specify the type in the declaration
+        val name: String? = prefs[PREFERENCES_NAME]
+        input_name.setText(name)
+
+        // Option 2: Specify the type indirectly by setting the default value
+        val username = prefs[PREFERENCES_USERNAME, ""]
+        input_username.setText(username)
+
+        val email: String? = prefs[PREFERENCES_EMAIL]
+        input_email_address.setText(email)
+
+        val phoneNumber: String? = prefs[PREFERENCES_PHONE_NUMBER]
+        input_phone_number.setText(phoneNumber)
+
+        val gender: String? = prefs[PREFERENCES_GENDER]
+        if(gender.equals("")){
+            gender_spinner.setSelection(0)
+        }
+        else{
+            val genderArray = resources.getStringArray(R.array.gender_array)
+            val genderIndex: Int = genderArray.indexOf(gender)
+            gender_spinner.setSelection(genderIndex)
+        }
+
+        val profileImageUrl: String? = prefs[PREFERENCES_PROFILE_IMAGE]
+        setProfileImage(profileImageUrl)
     }
 
     fun savePreferences(){
