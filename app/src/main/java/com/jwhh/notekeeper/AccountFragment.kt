@@ -129,6 +129,12 @@ class AccountFragment : Fragment(),
         }
     }
 
+	fun View.hideKeyboard() {
+        printToLog("closing keyboard")
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
+	
     private fun showProgressBar(){
         save.visibility = View.INVISIBLE
         progress_bar.visibility = View.VISIBLE
