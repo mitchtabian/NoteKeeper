@@ -24,6 +24,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.jwhh.notekeeper.PreferenceHelper.set
 import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.layout_account_toolbar.*
 import java.util.*
