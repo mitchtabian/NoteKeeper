@@ -22,10 +22,13 @@ import kotlinx.android.synthetic.main.layout_settings_toolbar.*
 
 class ItemsActivity : AppCompatActivity(),
         NavigationView.OnNavigationItemSelectedListener,
-        IItems
+        IItems,
+        ChangePhotoDialog.OnPhotoReceivedListener
 {
 
     private val TAG = "ItemsActivity"
+
+    var accountFragment: AccountFragment? = null
 
     var settingsFragment: SettingsFragment? = null
 
@@ -118,11 +121,21 @@ class ItemsActivity : AppCompatActivity(),
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> {
-                inflateSettingsFragment()
+                inflateAccountFragment()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override  fun inflateAccountFragment(){
+        if(accountFragment == null){
+            accountFragment = AccountFragment()
+        }
+        val transaction: android.support.v4.app.FragmentTransaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.account_container, accountFragment, FRAGMENT_ACCOUNT)
+        transaction.addToBackStack(FRAGMENT_ACCOUNT)
+        transaction.commit()
     }
 
     fun inflateSettingsFragment(){
@@ -134,6 +147,10 @@ class ItemsActivity : AppCompatActivity(),
         transaction.replace(R.id.settings_container, settingsFragment, FRAGMENT_SETTINGS)
         transaction.addToBackStack(FRAGMENT_SETTINGS)
         transaction.commit()
+    }
+
+    override fun setImageUri(imageUri: Uri?) {
+        accountFragment!!.setImageUri(imageUri)
     }
 
     override fun showSettingsAppBar() {
