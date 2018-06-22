@@ -7,7 +7,7 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.*
-import android.preference.PreferenceManager
+
 
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
@@ -24,6 +24,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.jwhh.notekeeper.PreferenceHelper.set
 import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.layout_account_toolbar.*
 import java.util.*
@@ -129,9 +130,41 @@ class AccountFragment : Fragment(),
 //
 //        }
 
+
         val prefs: SharedPreferences = PreferenceHelper.defaultPrefs(context!!)
 
+        // name
+        printToLog("saving name: " + input_name.text.toString())
+        prefs[PREFERENCES_NAME] = input_name.text
 
+        // username
+        val username: String = input_username.text.toString().replace(" ", ".")
+        printToLog("saving username: " + username)
+        prefs[PREFERENCES_USERNAME] = username
+        input_username.setText(username) // fix the username being displayed if necessary
+
+        // Phone Number
+        val phoneNumber: String = removeNumberFormatting(input_phone_number.text.toString())
+        printToLog("saving phone number: " + phoneNumber)
+        prefs[PREFERENCES_PHONE_NUMBER] = phoneNumber
+
+        // Email Address
+        printToLog("saving email address: " + input_email_address.text.toString())
+        prefs[PREFERENCES_EMAIL] = input_email_address.text
+
+        // Gender
+        printToLog("saving gender: " + gender_spinner.selectedItem.toString())
+        prefs[PREFERENCES_GENDER] = gender_spinner.selectedItem
+
+
+        if(selectedImageUri != null){
+            prefs[PREFERENCES_PROFILE_IMAGE] = selectedImageUri.toString()
+        }
+    }
+
+    private fun removeNumberFormatting(number: String): String{
+        val regex = Regex("[^0-9]")
+        return regex.replace(number, "")
     }
 
     override fun onAttach(context: Context?) {
