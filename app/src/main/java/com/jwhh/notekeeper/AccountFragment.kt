@@ -137,6 +137,7 @@ class AccountFragment : Fragment(),
         printToLog("saving name: " + input_name.text.toString())
         prefs[PREFERENCES_NAME] = input_name.text
 
+
         // username
         val username: String = input_username.text.toString().replace(" ", ".")
         printToLog("saving username: " + username)
