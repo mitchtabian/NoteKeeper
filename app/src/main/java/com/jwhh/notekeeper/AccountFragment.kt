@@ -117,7 +117,11 @@ class AccountFragment : Fragment(),
     }
 
     fun savePreferences(){
-        showProgressBar()
+        view!!.hideKeyboard()
+
+        val prefs: SharedPreferences = PreferenceHelper.defaultPrefs(context!!)
+
+
     }
 
     override fun onAttach(context: Context?) {
@@ -127,6 +131,12 @@ class AccountFragment : Fragment(),
         }catch (e: ClassCastException){
             printToLog(e.message)
         }
+    }
+
+    fun View.hideKeyboard() {
+        printToLog("closing keyboard")
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
     }
 
     private fun showProgressBar(){
