@@ -25,7 +25,7 @@ class SettingsFragment: PreferenceFragment(),
         addPreferencesFromResource(R.xml.pref_main)
 
         // Set Preference Change Listeners
-        val accountPreference: Preference = preferenceManager.findPreference(getString(R.string.key_account_settings))
+        val accountPreference: Preference = findPreference(getString(R.string.key_account_settings))
         accountPreference.setOnPreferenceClickListener {onPreferenceClick(it)}
     }
 
