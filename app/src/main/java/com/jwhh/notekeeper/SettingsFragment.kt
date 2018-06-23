@@ -2,6 +2,7 @@ package com.jwhh.notekeeper
 
 import android.content.Context
 import android.os.Bundle
+import android.preference.Preference
 import android.preference.PreferenceFragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -9,7 +10,9 @@ import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.*
 
-class SettingsFragment: PreferenceFragment() {
+class SettingsFragment: PreferenceFragment(),
+        Preference.OnPreferenceClickListener
+{
 
     private val TAG = "SettingsFragment"
 
@@ -21,6 +24,9 @@ class SettingsFragment: PreferenceFragment() {
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.pref_main)
 
+        // Set Preference Change Listeners
+        val accountPreference: Preference = preferenceManager.findPreference(getString(R.string.key_account_settings))
+        accountPreference.setOnPreferenceClickListener {onPreferenceClick(it)}
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -37,6 +43,15 @@ class SettingsFragment: PreferenceFragment() {
         setHasOptionsMenu(true)
 
         return view
+    }
+
+    override fun onPreferenceClick(preference: Preference?): Boolean {
+
+        if(preference!!.key.equals(getString(R.string.key_account_settings))){
+            iItems!!.inflateAccountFragment()
+        }
+
+        return true
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
