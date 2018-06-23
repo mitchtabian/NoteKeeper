@@ -32,10 +32,12 @@ import java.util.*
 
 
 class AccountFragment : Fragment(),
-        View.OnClickListener
+        View.OnClickListener,
+        SharedPreferences.OnSharedPreferenceChangeListener
 {
     private val TAG = "AccountFragment"
 
+    private var isRunning: Boolean = false
     private var selectedImageUri: Uri? = null
     private var permissions: Boolean = false
     private var iItems: IItems? = null
@@ -53,6 +55,56 @@ class AccountFragment : Fragment(),
         initWidgetValues()
         initPermissions()
         enablePhotoSelection()
+    }
+
+    override fun onSharedPreferenceChanged(p0: SharedPreferences?, key: String?) {
+        when(key){
+            PREFERENCES_NAME -> updatePreferenceSuccess(PREFERENCES_NAME)
+            PREFERENCES_USERNAME -> updatePreferenceSuccess(PREFERENCES_USERNAME)
+            PREFERENCES_PHONE_NUMBER -> updatePreferenceSuccess(PREFERENCES_PHONE_NUMBER)
+            PREFERENCES_EMAIL -> updatePreferenceSuccess(PREFERENCES_EMAIL)
+            PREFERENCES_GENDER -> updatePreferenceSuccess(PREFERENCES_GENDER)
+            PREFERENCES_PROFILE_IMAGE -> updatePreferenceSuccess(PREFERENCES_PROFILE_IMAGE)
+        }
+    }
+
+    fun updatePreferenceSuccess(key: String?){
+        showProgressBar()
+
+        // Simulate uploading the new data to server
+        if(!isRunning){
+
+            // If this was a real application we would send the updates to server here
+            simulateUploadToServer()
+
+            Snackbar.make(view!!, "sending updates to server", Snackbar.LENGTH_SHORT).show()
+            printToLog("successfully updated shared preferences. key: " + key)
+        }
+    }
+
+    private fun simulateUploadToServer(){
+        val handler = Handler(Looper.getMainLooper())
+        val start: Long = System.currentTimeMillis()
+        val runnable: Runnable = object: Runnable{
+            override fun run() {
+                handler.postDelayed(this, 100)
+                isRunning = true
+                val now: Long = System.currentTimeMillis()
+                val difference: Long = now - start
+                if(difference >= 1000){
+                    printToLog("update finished")
+                    updateFinished()
+                    handler.removeCallbacks(this)
+                    isRunning = false
+                }
+            }
+        }
+        activity!!.runOnUiThread(runnable)
+    }
+
+    private fun updateFinished(){
+        hideProgressBar()
+        selectedImageUri = null
     }
 
     private fun initPermissions(){
@@ -248,6 +300,16 @@ class AccountFragment : Fragment(),
                     PERMISSION_REQUEST_CODE
             )
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        PreferenceHelper.defaultPrefs(context!!).registerOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        PreferenceHelper.defaultPrefs(context!!).unregisterOnSharedPreferenceChangeListener(this)
     }
 
     private fun printToLog(message: String?){
