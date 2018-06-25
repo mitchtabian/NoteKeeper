@@ -71,6 +71,7 @@ class SettingsFragment: PreferenceFragment(),
         when(key){
             getString(R.string.key_gallery_name) -> updatePreferenceSuccess(getString(R.string.key_gallery_name))
             getString(R.string.key_upload_over_wifi) -> updatePreferenceSuccess(getString(R.string.key_upload_over_wifi))
+            getString(R.string.key_notifications_new_message) -> updatePreferenceSuccess(getString(R.string.key_notifications_new_message))
             getString(R.string.key_notifications_new_message_ringtone) -> updatePreferenceSuccess(getString(R.string.key_notifications_new_message_ringtone))
             getString(R.string.key_vibrate) -> updatePreferenceSuccess(getString(R.string.key_vibrate))
             getString(R.string.key_backup_frequency) -> updatePreferenceSuccess(getString(R.string.key_backup_frequency))
