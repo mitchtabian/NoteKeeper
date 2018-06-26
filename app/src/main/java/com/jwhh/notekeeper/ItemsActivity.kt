@@ -21,16 +21,10 @@ import kotlinx.android.synthetic.main.content_items.*
 import kotlinx.android.synthetic.main.layout_settings_toolbar.*
 
 class ItemsActivity : AppCompatActivity(),
-        NavigationView.OnNavigationItemSelectedListener,
-        IItems,
-        ChangePhotoDialog.OnPhotoReceivedListener
+        NavigationView.OnNavigationItemSelectedListener
 {
 
     private val TAG = "ItemsActivity"
-
-    var accountFragment: AccountFragment? = null
-
-    var settingsFragment: SettingsFragment? = null
 
     val noteLayoutManager by lazy {
         LinearLayoutManager(this)
@@ -92,21 +86,6 @@ class ItemsActivity : AppCompatActivity(),
         else {
             super.onBackPressed()
         }
-
-        correctSettingsToolbarVisibilty()
-    }
-
-    fun correctSettingsToolbarVisibilty(){
-        if(settingsFragment != null){
-            if(settingsFragment!!.isVisible){
-                showSettingsAppBar()
-            }
-            else{
-                hideSettingsAppBar()
-            }
-            return
-        }
-        hideSettingsAppBar()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -121,44 +100,13 @@ class ItemsActivity : AppCompatActivity(),
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> {
-                inflateSettingsFragment()
+
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    override fun setImageUri(imageUri: Uri?) {
-        accountFragment!!.setImageUri(imageUri)
-    }
-
-    override  fun inflateAccountFragment(){
-        if(accountFragment == null){
-            accountFragment = AccountFragment()
-        }
-        val transaction: android.support.v4.app.FragmentTransaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.account_container, accountFragment, FRAGMENT_ACCOUNT)
-        transaction.addToBackStack(FRAGMENT_ACCOUNT)
-        transaction.commit()
-    }
-
-    fun inflateSettingsFragment(){
-        if(settingsFragment == null){
-            settingsFragment = SettingsFragment()
-        }
-        val transaction: FragmentTransaction = fragmentManager.beginTransaction()
-        transaction.replace(R.id.settings_container, settingsFragment, FRAGMENT_SETTINGS)
-        transaction.addToBackStack(FRAGMENT_SETTINGS)
-        transaction.commit()
-    }
-
-    override fun showSettingsAppBar() {
-        settings_app_bar.visibility = View.VISIBLE
-    }
-
-    override fun hideSettingsAppBar() {
-        settings_app_bar.visibility = View.GONE
-    }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
