@@ -18,7 +18,6 @@ import android.view.View
 import kotlinx.android.synthetic.main.activity_items.*
 import kotlinx.android.synthetic.main.app_bar_items.*
 import kotlinx.android.synthetic.main.content_items.*
-import kotlinx.android.synthetic.main.layout_settings_toolbar.*
 
 class ItemsActivity : AppCompatActivity(),
         NavigationView.OnNavigationItemSelectedListener
