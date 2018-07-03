@@ -117,7 +117,7 @@ class AccountFragment : Fragment(),
 
     }
 
-    fun savePreferences(){
+    private fun savePreferences(){
         view!!.hideKeyboard()
 
 //        val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
@@ -130,9 +130,36 @@ class AccountFragment : Fragment(),
 //
 //        }
 
+
         val prefs: SharedPreferences = PreferenceHelper.defaultPrefs(context!!)
 
+        // name
+        printToLog("saving name: " + input_name.text.toString())
+        prefs[PREFERENCES_NAME] = input_name.text
 
+        // username
+        val username: String = input_username.text.toString().replace(" ", ".")
+        printToLog("saving username: " + username)
+        prefs[PREFERENCES_USERNAME] = username
+        input_username.setText(username) // fix the username being displayed if necessary
+
+        // Phone Number
+        val phoneNumber: String = removeNumberFormatting(input_phone_number.text.toString())
+        printToLog("saving phone number: " + phoneNumber)
+        prefs[PREFERENCES_PHONE_NUMBER] = phoneNumber
+
+        // Email Address
+        printToLog("saving email address: " + input_email_address.text.toString())
+        prefs[PREFERENCES_EMAIL] = input_email_address.text
+
+        // Gender
+        printToLog("saving gender: " + gender_spinner.selectedItem.toString())
+        prefs[PREFERENCES_GENDER] = gender_spinner.selectedItem
+
+
+        if(selectedImageUri != null){
+            prefs[PREFERENCES_PROFILE_IMAGE] = selectedImageUri.toString()
+        }
     }
 
     override fun onAttach(context: Context?) {
@@ -160,6 +187,10 @@ class AccountFragment : Fragment(),
         save.visibility = View.VISIBLE
     }
 
+    private fun removeNumberFormatting(number: String): String{
+        val regex = Regex("[^0-9]")
+        return regex.replace(number, "")
+    }
 
     private fun initToolbar() {
         close.setOnClickListener(this)
