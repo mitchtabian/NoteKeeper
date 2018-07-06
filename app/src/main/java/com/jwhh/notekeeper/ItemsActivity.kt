@@ -128,10 +128,6 @@ class ItemsActivity : AppCompatActivity(),
         }
     }
 
-    override fun setImageUri(imageUri: Uri?) {
-        accountFragment!!.setImageUri(imageUri)
-    }
-
     override  fun inflateAccountFragment(){
         if(accountFragment == null){
             accountFragment = AccountFragment()
@@ -143,6 +139,7 @@ class ItemsActivity : AppCompatActivity(),
     }
 
     fun inflateSettingsFragment(){
+        printToLog("Inflating Settings Fragment")
         if(settingsFragment == null){
             settingsFragment = SettingsFragment()
         }
@@ -150,6 +147,10 @@ class ItemsActivity : AppCompatActivity(),
         transaction.replace(R.id.settings_container, settingsFragment, FRAGMENT_SETTINGS)
         transaction.addToBackStack(FRAGMENT_SETTINGS)
         transaction.commit()
+    }
+
+    override fun setImageUri(imageUri: Uri?) {
+        accountFragment!!.setImageUri(imageUri)
     }
 
     override fun showSettingsAppBar() {

@@ -2,22 +2,16 @@ package com.jwhh.notekeeper
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.preference.Preference
 import android.preference.PreferenceFragment
-import android.preference.PreferenceScreen
-import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
-import android.util.Log
-import android.view.*
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
+import android.view.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.layout_account_toolbar.*
 
-
-class SettingsFragment : PreferenceFragment(),
+class SettingsFragment: PreferenceFragment(),
         Preference.OnPreferenceClickListener,
         Preference.OnPreferenceChangeListener
 {
@@ -32,15 +26,19 @@ class SettingsFragment : PreferenceFragment(),
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.pref_main)
 
-        // Set Preference Change Listeners
-        val accountPreference: Preference = preferenceManager.findPreference(getString(R.string.key_account_settings))
+        // Set Preference Click Listener
+        val accountPreference: Preference = findPreference(getString(R.string.key_account_settings))
         accountPreference.setOnPreferenceClickListener {onPreferenceClick(it)}
 
+        // set Preference Change Listeners
         val galleryNamePreference: Preference = preferenceManager.findPreference(getString(R.string.key_gallery_name))
         galleryNamePreference.setOnPreferenceChangeListener(this)
 
         val uploadWifiPreference: Preference = preferenceManager.findPreference(getString(R.string.key_upload_over_wifi))
         uploadWifiPreference.setOnPreferenceChangeListener(this)
+
+        val notificationsNewMessagePreference: Preference = preferenceManager.findPreference(getString(R.string.key_notifications_new_message))
+        notificationsNewMessagePreference.setOnPreferenceChangeListener(this)
 
         val notificationsRingtonePreference: Preference = preferenceManager.findPreference(getString(R.string.key_notifications_new_message_ringtone))
         notificationsRingtonePreference.setOnPreferenceChangeListener(this)
@@ -51,7 +49,6 @@ class SettingsFragment : PreferenceFragment(),
         val backupFrequencyPreference: Preference = preferenceManager.findPreference(getString(R.string.key_backup_frequency))
         backupFrequencyPreference.setOnPreferenceChangeListener(this)
     }
-
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view: View = super.onCreateView(inflater, container, savedInstanceState)
@@ -74,6 +71,7 @@ class SettingsFragment : PreferenceFragment(),
         when(key){
             getString(R.string.key_gallery_name) -> updatePreferenceSuccess(getString(R.string.key_gallery_name))
             getString(R.string.key_upload_over_wifi) -> updatePreferenceSuccess(getString(R.string.key_upload_over_wifi))
+            getString(R.string.key_notifications_new_message) -> updatePreferenceSuccess(getString(R.string.key_notifications_new_message))
             getString(R.string.key_notifications_new_message_ringtone) -> updatePreferenceSuccess(getString(R.string.key_notifications_new_message_ringtone))
             getString(R.string.key_vibrate) -> updatePreferenceSuccess(getString(R.string.key_vibrate))
             getString(R.string.key_backup_frequency) -> updatePreferenceSuccess(getString(R.string.key_backup_frequency))
@@ -132,21 +130,3 @@ class SettingsFragment : PreferenceFragment(),
         Log.d(TAG, message)
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

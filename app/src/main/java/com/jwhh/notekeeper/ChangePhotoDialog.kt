@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.app.DialogFragment
+import android.support.v4.app.Fragment
 import android.support.v4.content.FileProvider
 import android.util.Log
 import android.view.LayoutInflater
@@ -62,7 +63,7 @@ class ChangePhotoDialog: DialogFragment() {
                 // Continue only if the File was successfully created
                 if (photoFile != null) {
                     val photoURI = FileProvider.getUriForFile(activity!!,
-                            "com.example.android.fileprovider",
+                            "com.jwhh.notekeeper.fileprovider",
                             photoFile)
                     cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                     startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE)
@@ -117,16 +118,18 @@ class ChangePhotoDialog: DialogFragment() {
         }
     }
 
+    override fun onAttachFragment(childFragment: Fragment?) {
+        super.onAttachFragment(childFragment)
+    }
 
 
     override fun onAttach(context: Context?) {
+        super.onAttach(context)
         try {
             onPhotoReceived = context as OnPhotoReceivedListener
         } catch (e: ClassCastException) {
             Log.e(TAG, "onAttach: ClassCastException", e.cause)
         }
-
-        super.onAttach(context)
     }
 }
 

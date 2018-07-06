@@ -4,39 +4,22 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import android.text.Editable
-import kotlin.reflect.KProperty
 
-/**
- * For more information on the Singleton pattern with Kotlin:
- * Course name: Android Apps with Kotlin: Build Your First App (Author = Jim Wilson)
- * Video: 5.7
- */
+
 object PreferenceHelper{
 
     fun defaultPrefs(context: Context): SharedPreferences
             = PreferenceManager.getDefaultSharedPreferences(context)
 
-    // Probably best to not use this. getDefaultSharedPreferences will avoid typos
-    // and confusion caused by multiple files
-    // Use this if you don't want any other application to read the shared preferences file
     fun customPrefs(context: Context, name: String): SharedPreferences
             = context.getSharedPreferences(name, Context.MODE_PRIVATE)
 
-    /*
-        Create an extension function for the 'edit' method in SharedPreferences
-        https://kotlinlang.org/docs/reference/extensions.html
-        https://kotlinlang.org/docs/reference/inline-functions.html
-     */
     inline fun SharedPreferences.edit(operation: (SharedPreferences.Editor) -> Unit){
         val editor = this.edit()
         operation(editor) // do the work needed
         editor.apply()
     }
 
-    /**
-     * puts a key value pair in shared prefs if it doesn't exist, otherwise updates value on given [key]
-     * Operators: https://kotlinlang.org/docs/reference/operator-overloading.html#operator-overloading
-     */
     operator fun SharedPreferences.set(key: String, value: Any) {
         when (value) {
             is Editable -> {
@@ -58,11 +41,6 @@ object PreferenceHelper{
         }
     }
 
-    /**
-     * finds value on given key.
-     * Operators: https://kotlinlang.org/docs/reference/operator-overloading.html#operator-overloading
-     * https://kotlinlang.org/docs/reference/inline-functions.html#inline-properties
-     */
     operator inline fun <reified T> SharedPreferences.get(key: String, defaultValue: T? = null): T? {
         return when (T::class) {
             String::class -> getString(key, defaultValue as? String) as T?
@@ -73,6 +51,17 @@ object PreferenceHelper{
             else -> throw UnsupportedOperationException("Unsupported Operation")
         }
     }
+
+
+    /*
+        WANT MORE INFORMATION?
+        1) https://kotlinlang.org/docs/reference/lambdas.html
+        2) https://kotlinlang.org/docs/reference/keyword-reference.html
+        3) https://kotlinlang.org/docs/reference/extensions.html
+        4) https://kotlinlang.org/docs/reference/object-declarations.html
+        5) https://kotlinlang.org/docs/reference/operator-overloading.html
+
+     */
 
 }
 
